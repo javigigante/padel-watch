@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <!-- Adapta la aplicación a la pantalla del reloj -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Color de la interfaz del navegador -->
+  <meta name="theme-color" content="#292929">
+
+  <title>Padel Watch</title>
+
+  <!-- Hoja de estilos de la aplicación -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Lógica del marcador; defer espera a que se analice el HTML -->
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Contenedor circular que representa la pantalla del reloj -->
+  <main class="watch" aria-label="Marcador de pádel">
+
+    <!-- Marcador de juegos y sets -->
+    <header class="score-header">
+        <div
+            class="games-score"
+            aria-live="polite"
+            aria-label="Marcador de juegos y sets"
+>
+            <!-- Número del set actual -->
+            <span id="set-number">1.</span>
+
+            <!-- Juegos de nuestra pareja -->
+            <span id="games-us">0</span>
+
+            <!-- Sets de nuestra pareja -->
+            <span id="sets-us">(0)</span>
+
+            <span class="separator">-</span>
+
+            <!-- Sets de los rivales -->
+            <span id="sets-them">(0)</span>
+
+            <!-- Juegos de los rivales -->
+            <span id="games-them">0</span>
+        </div>
+    </header>
+
+    <!-- Zona principal dividida en dos mitades -->
+    <section class="court" aria-label="Puntuación del partido">
+
+      <!-- Mitad verde: nuestra pareja -->
+      <div class="team team-us" id="team-us">
+
+        <!-- Tocar esta zona suma un punto -->
+        <button
+          class="score-hit"
+          id="score-us"
+          aria-label="Sumar punto a nuestra pareja"
+        >
+          <span class="team-name">NOSOTROS</span>
+          <span class="points" id="points-us">0</span>
+        </button>
+
+        <!-- Deshace el último punto registrado para nuestra pareja -->
+        <button
+          class="minus"
+          id="minus-us"
+          aria-label="Restar último punto de nuestra pareja"
+          disabled
+        >−</button>
+      </div>
+
+      <!-- Mitad roja: pareja rival -->
+      <div class="team team-them" id="team-them">
+
+        <!-- Tocar esta zona suma un punto a los rivales -->
+        <button
+          class="score-hit"
+          id="score-them"
+          aria-label="Sumar punto a los rivales"
+        >
+          <span class="team-name">RIVALES</span>
+          <span class="points" id="points-them">0</span>
+        </button>
+
+        <!-- Deshace el último punto registrado para los rivales -->
+        <button
+          class="minus"
+          id="minus-them"
+          aria-label="Restar último punto de los rivales"
+          disabled
+        >−</button>
+      </div>
+    </section>
+
+    <!-- Borra el marcador y empieza un partido nuevo -->
+    <button id="reset" class="reset-button">Reiniciar</button>
+
+  </main>
+</body>
+
+</html>

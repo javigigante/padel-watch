@@ -1,0 +1,253 @@
+
+/* Todos los elementos incluyen borde y relleno en sus dimensiones */
+* {
+  box-sizing: border-box;
+}
+
+/* Colores y tipografía generales */
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #ff3030;
+  background: #202020;
+}
+
+/* Centra el reloj en la ventana */
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 8px;
+  display: grid;
+  place-items: center;
+  background: #202020;
+}
+
+/* Estilo común de todos los botones */
+button {
+  font: inherit;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Cuerpo circular de la pantalla */
+.watch {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 360px);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 6px solid #444444;
+  border-radius: 50%;
+  background: #292929;
+  box-shadow:
+    0 0 0 2px #555555,
+    0 15px 40px rgb(0 0 0 / 35%);
+}
+
+/* Franja azul con el marcador superior */
+.score-header {
+  flex: 0 0 22%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 8px 0;
+  background: #063aca;
+}
+
+/* Alinea los juegos y sets en una sola fila */
+.games-score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(3px, 1.5vw, 7px);
+  white-space: nowrap;
+  font-size: clamp(17px, 5vw, 23px);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Los juegos usan el color de cada equipo */
+#games-us {
+  color: #35d68b;
+}
+
+#games-them {
+  color: #ff3030;
+}
+
+/* El número del set y los sets ganados son blancos */
+#set-number,
+#sets-us,
+#sets-them,
+.separator {
+  color: #ffffff;
+}
+
+/* Zona que contiene las dos mitades de puntuación */
+.court {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+/* Cada equipo ocupa exactamente la mitad de la zona */
+.team {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Fondo verde para nuestra pareja */
+.team-us {
+  background: #176b45;
+  border-right: 2px solid #292929;
+}
+
+/* Fondo rojo para la pareja rival */
+.team-them {
+  background: #c51f32;
+}
+
+/* Área táctil grande para sumar puntos */
+.score-hit {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 28px 3px 76px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* Nombres de los equipos cerca del borde superior */
+.team-name {
+  position: absolute;
+  top: 13px;
+  left: 2px;
+  right: 2px;
+  color: #ffffff;
+  font-size: clamp(9px, 2.8vw, 12px);
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+/* Números de puntos más grandes y destacados */
+.points {
+  color: #ffffff;
+  font-size: clamp(58px, 17vw, 76px);
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * Botones de restar:
+ * - Se colocan al 77% de la altura de cada mitad.
+ * - Se centran horizontalmente en su equipo.
+ * - Así quedan debajo de los puntos y lejos del borde circular.
+ */
+.minus {
+  position: absolute;
+  top: 77%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 65%);
+  border-radius: 50%;
+  background: #202020;
+  color: #ff3030;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* Los botones desactivados se distinguen cuando no hay puntos que quitar */
+.minus:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/*
+ * Botón de reinicio:
+ * permanece centrado en la parte inferior de la pantalla.
+ * Su capa está por encima de los elementos de puntuación.
+ */
+.reset-button {
+  position: absolute;
+  z-index: 7;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 88px;
+  padding: 6px 11px;
+  border: 1px solid #ff3030;
+  border-radius: 20px;
+  background: #292929;
+  color: #ff3030;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* Indicador de foco para accesibilidad con teclado */
+.score-hit:focus-visible,
+.minus:focus-visible,
+.reset-button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: -3px;
+}
+
+/* Destello amarillo al pulsar para sumar un punto */
+.team.flash {
+  animation: point-flash 260ms steps(1, end);
+}
+
+/* Alterna el brillo para crear el efecto de destello */
+@keyframes point-flash {
+  0%,
+  100% {
+    filter: none;
+  }
+
+  25%,
+  75% {
+    filter: brightness(1.9);
+    background-color: #ffff00;
+  }
+
+  50% {
+    filter: brightness(1.5);
+  }
+}
+
+/* Reduce los márgenes en pantallas pequeñas */
+@media (max-width: 400px) {
+  body {
+    padding: 4px;
+  }
+}
+
+/* Respeta la preferencia de movimiento reducido del dispositivo */
+@media (prefers-reduced-motion: reduce) {
+  .team.flash {
+    animation-duration: 120ms;
+  }
+}
